@@ -1,0 +1,597 @@
+/* START Interactive Gradient & Glassmorphism with noise by TOMAZKI on Codepen 24- MH */
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+
+:root {
+    --color-bg1: rgb(255, 255, 255);
+    --color-bg2: rgb(255, 255, 255);
+    --color1: 231, 19, 138;
+    --color2: 242, 214, 53;
+    --color3: 138, 196, 65;
+    --color4: 43, 168, 224;
+    --color5: 247, 148, 33;
+    --color-interactive: 0, 0, 0;
+    --circle-size: 80%;
+    --blending: soft-light;
+  }
+
+
+* {
+  margin:0;
+  padding:0;
+  outline:none;
+  list-style:none;
+  text-decoration:none;
+  box-sizing:border-box;
+  color:#FFF;
+  background: transparent;
+  border:none;
+}
+
+html, body {
+  font-family: 'Dongle', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: #FFF;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+}
+
+h1, h2, h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+.card {
+    position: absolute;
+    z-index: 10;
+    /* centers information window to the middle of viewport: Effect blocked*/
+    /* 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+   
+    max-width: 600px;
+    padding: 48px; 
+    */
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    /*
+    border-radius: 8px;
+    */
+    box-shadow: 0 4px 90px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    &:before {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: rgb(255, 255, 255);
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 34%,
+        rgba(255, 255, 255, 1) 89%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      opacity: 0.3;
+      filter: blur(0.5px);
+      mix-blend-mode: hard-light;
+    }
+
+  .noise {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    opacity: 0.1;
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    text-shadow: -3px 0px 2px rgba(0,0,0,0.1);
+  }
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+p {
+  line-height: 1.6;
+}
+
+
+@keyframes moveInCircle {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes moveVertical {
+  0% {
+    transform: translateY(-50%);
+  }
+  50% {
+    transform: translateY(50%);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes moveHorizontal {
+  0% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+  50% {
+    transform: translateX(50%) translateY(10%);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+}
+
+
+.gradient-bg {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
+  top: 0;
+  left: 0;
+
+  .svgBlur {
+    display: none;
+  }
+
+  .noiseBg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    mix-blend-mode: soft-light;
+    opacity: 0.3;
+  }
+  .gradients-container {
+    filter: url(#goo) blur(40px) ;
+    width: 100%;
+    height: 100%;
+  }
+
+  .g1 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+
+    transform-origin: center center;
+    animation: moveVertical 30s ease infinite;
+
+    opacity: 1;
+  }
+
+  .g2 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+
+    transform-origin: calc(50% - 400px);
+    animation: moveInCircle 20s reverse infinite;
+
+    opacity: 1;
+  }
+
+  .g3 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2 + 200px);
+    left: calc(50% - var(--circle-size) / 2 - 500px);
+
+    transform-origin: calc(50% + 400px);
+    animation: moveInCircle 40s linear infinite;
+
+    opacity: 1;
+  }
+
+  .g4 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+
+    transform-origin: calc(50% - 200px);
+    animation: moveHorizontal 40s ease infinite;
+
+    opacity: 0.7;
+  }
+
+  .g5 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+
+    width: calc(var(--circle-size) * 2);
+    height: calc(var(--circle-size) * 2);
+    top: calc(50% - var(--circle-size));
+    left: calc(50% - var(--circle-size));
+
+    transform-origin: calc(50% - 800px) calc(50% + 200px);
+    animation: moveInCircle 20s ease infinite;
+
+    opacity: 1;
+  }
+
+  .interactive {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color-interactive), 0.8) 0, rgba(var(--color-interactive), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+
+    width: 100%;
+    height: 100%;
+    top: -50%;
+    left: -50%;
+
+    opacity: 0.7;
+  }
+}
+
+/* START Locomotivescroll by vainsan. Originally was included in the HTML as style tags. Seperated for access and visual convenience- MH*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Satoshi', sans-serif;
+  }
+  
+  body {
+    font-family: 'Satoshi', sans-serif;
+    user-select: none;
+    overflow-x: hidden;
+    background-color: #fbfbf0;
+    color: #2f2f2f;
+    transition: background-color 0.5s, color 0.5s;
+    width:100%;
+  }
+  main {
+    padding:0 2rem;
+  }
+  .dark-mode {
+    background-color: #2f2f2f;
+    color: #f6f6dc;
+  }
+  
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    z-index:12;
+    position: -webkit-sticky;
+    position: sticky;
+    top:1rem;
+  }
+  
+  .top-bar a {
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: inherit;
+    margin-right: 1rem;
+  }
+  
+  .top-bar button {
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #2f2f2f;
+    color: #f6f6dc;
+    border-radius: 4px;
+  }
+  
+  .header {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 1200px;
+  }
+  
+  .header h1 {
+    font-family: 'Clash Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 60px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .nav-bar ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .nav-bar li {
+    margin: 0 1rem;
+  }
+  
+  .nav-bar a {
+    font-weight: 300;
+    text-decoration: none;
+    color: inherit;
+    font-size: 1.25rem;
+  }
+  .title-section, .subtitle-section {
+    position: relative;
+  }
+  .main-section {
+    padding:  2rem;
+    padding-top:10rem;
+    text-align: center;
+    height:100vh;
+    min-height:100vh;
+    /*
+    */
+  }
+  
+  .main-section h2 {
+    font-family: 'Clash Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .main-section p {
+    font-weight: 300;
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  
+  .swiper-container {
+    width: 100%;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .swiper-slide {
+    background-size: cover;
+    background-position: center;
+    & img {
+      width:100%;
+    }
+  }
+  
+  .team {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2rem 1rem;
+  }
+  
+  .team-member {
+    flex: 1 1 200px;
+    text-align: center;
+  }
+  
+  footer {
+    padding: 2rem 1rem;
+    border-top: 1px solid ;
+    border-color:#2f2f2f;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    position:relative;
+  }
+  
+  footer div {
+    flex: 1 1 1 200px;
+    margin-bottom: 1rem;
+  }
+  
+  footer h2 {
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  footer ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  footer li {
+    margin-bottom: 0.5rem;
+  }
+  
+  footer a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .menu-toggle {
+    display: none;
+  }
+  
+  .hamburger {
+    display: none;
+    cursor: pointer;
+  }
+  
+  .dark-mode .top-bar button {
+    background-color: #444;
+  }
+  
+  @media (max-width: 767px) {
+    .hamburger {
+      display: block;
+    }
+  
+    .nav-bar {
+      display: none;
+    }
+  
+    .menu-toggle:checked+.nav-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .header h1 {
+      font-size: 40px;
+    }
+  }
+  
+  .toggle-button-cover {
+    display: table-cell;
+    position: relative;
+    box-sizing: border-box;
+    transform:scale(0.45);
+    transform-origin:center right;
+  }
+  
+  .button-cover {
+    height: 100px;
+    margin: 20px;
+    background-color: #fff;
+    box-shadow: 0 10px 20px -8px #c5d6d6;
+    border-radius: 4px;
+  }
+  
+  .button-cover:before {
+    counter-increment: button-counter;
+    content: counter(button-counter);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: #d7e3e3;
+    font-size: 12px;
+    line-height: 1;
+    padding: 5px;
+  }
+  
+  .button-cover,
+  .knobs,
+  .layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .button {
+    position: relative;
+    top: 50%;
+    width: 74px;
+    height: 36px;
+    margin: -20px auto 0 auto;
+    overflow: hidden;
+  }
+  
+  .button.r,
+  .button.r .layer {
+    border-radius: 100px;
+  }
+  
+  .button.b2 {
+    border-radius: 2px;
+  }
+  
+  .checkbox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+  }
+  
+  .knobs {
+    z-index: 2;
+  }
+  
+  .layer {
+    width: 100%;
+    background-color: #f6f6dc;
+    transition: 0.3s ease all;
+    z-index: 1;
+  }
+  #toggle-button .knobs:before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 20px;
+    height: 10px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    padding: 9px 4px;
+    background-color: #2f2f2f;
+    border-radius: 50%;
+    transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
+  }
+  
+  #toggle-button .checkbox:active + .knobs:before {
+    width: 46px;
+    border-radius: 100px;
+  }
+  
+  #toggle-button .checkbox:checked:active + .knobs:before {
+    margin-left: -26px;
+  }
+  
+  #toggle-button .checkbox:checked + .knobs:before {
+    content: "";
+    left: 42px;
+    background-color: #2f2f2f;
+  }
+  
+  #toggle-button .checkbox:checked ~ .layer {
+    background-color: #fcebeb;
+  }
+  /* STOP locomotivescroll by vainsan- MH*/

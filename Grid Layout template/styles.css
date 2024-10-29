@@ -1,0 +1,13 @@
+body {
+    min-height: 50rem;
+    display: flex;
+    border: .5rem solid black;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.box {
+    height: 10rem;
+    width: 10rem;
+    background-color: brown;
+    font-size: 40pt;
+}
