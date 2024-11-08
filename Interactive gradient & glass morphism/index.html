@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Block the below html to eliminate the glass card in the middle of the viewport. 
     <div class="card">
         <svg 
              viewBox="0 0 100% 100%"
@@ -32,7 +33,10 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum tempore unde ex pariatur distinctio laboriosam, dolorem quibusdam aperiam expedita consequuntur dolorum porro vitae earum quos voluptates et maxime. Tempora, mollitia.</p>
         </div>
       </div>
+-->
+  <!-- This is the background and the moviing objects in the background. -->    
       <div class="gradient-bg">
+        <!-- This is a filter for making the backgrounnd objects appear a bit more defined.-->
         <svg 
              viewBox="0 0 100vw 100vw"
              xmlns='http://www.w3.org/2000/svg'
@@ -51,6 +55,8 @@
                 preserveAspectRatio="xMidYMid meet"
                 filter='url(#noiseFilterBg)' />
         </svg>
+      
+       <!-- This is a filter for making the background objects appear softer in definition. --> 
         <svg xmlns="http://www.w3.org/2000/svg" class="svgBlur">
           <defs>
             <filter id="goo">
@@ -60,6 +66,8 @@
             </filter>
           </defs>
         </svg>
+        
+        <!-- This is the moving objects in the background. -->
         <div class="gradients-container">
           <div class="g1"></div>
           <div class="g2"></div>
@@ -69,6 +77,8 @@
           <div class="interactive"></div>
         </div>
       </div>
+      
+
 </body>
 <footer>
     <p>Thank you for visiting my website.</p>
